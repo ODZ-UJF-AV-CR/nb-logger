@@ -121,12 +121,17 @@ def lcd():
     lcd.set_row2()
     time.sleep(0.1)
 
-    if os.path.isfile('/data/balon/data_koule.csv')==True:
-      koule=os.popen('tail -n1 data_koule.csv | tail -c 5').read()
-      koule=float(koule)
-      lcd.puts('H1 %4.1f B %4.3f' % (dv('SHT_Hum'), koule))
+    if os.path.exists('/dev/koule')==False:
+      lcd.puts('H1 %4.1f B notCon' % (dv('SHT_Hum')))
+    elif os.path.isfile('/data/balon/data_koule.csv')==True:
+      koule=os.popen('tail -n1 /data/balon/data_koule.csv | tail -c 5').read()
+      try:
+         koule=float(koule)
+         lcd.puts('H1 %4.1f B %4.3f' % (dv('SHT_Hum'), koule))
+      except ValueError:
+         lcd.puts('H1 %4.1f B nan' % (dv('SHT_Hum')))
     else:
-      lcd.puts('H1 %4.1f B NaN' % (dv('SHT_Hum')))
+      lcd.puts('H1 %4.1f B nan' % (dv('SHT_Hum')))
 
     #lcd.puts('H1 %4.1f H2 %4.1f' % (99.9, 99.9))
     time.sleep(0.9)
