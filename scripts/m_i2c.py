@@ -20,7 +20,7 @@ from pymlab import config
 
 import m_settings as g
 import m_nb
-import m_gps 
+import m_gps
 
 # Mystic op
 NaN = float('nan')
@@ -42,7 +42,7 @@ bus = [
   "children": [
     {"name": "altimet", "type": "altimet01" , "channel": 4, },   
     {"name": "sht25", "type": "sht25", "channel": 7, },
-    {"name": "sht25b", "type": "sht25", "channel": 1, },
+#    {"name": "sht25b", "type": "sht25", "channel": 1, },
     {"name": "gauge", "type": "lioncell", "channel": 3, },
     {"name": "lcd", "type": "i2clcd", "address": 0x27, "channel": 5, }
   ],
@@ -121,7 +121,13 @@ def lcd():
     lcd.set_row2()
     time.sleep(0.1)
 
-    lcd.puts('H1 %4.1f H2 %4.1f' % (dv('SHT_Hum'), dv('SHT_Hum2')))
+    if os.path.isfile('data_koule.csv')==True:
+      koule=os.popen('tail -n1 data_koule.csv | tail -c 5').read()
+      koule=float(koule)
+      lcd.puts('H1 %4.1f B %4.3f' % (dv('SHT_Hum'), koule))
+    else:
+      lcd.puts('H1 %4.1f B NaN' % (dv('SHT_Hum')))
+
     #lcd.puts('H1 %4.1f H2 %4.1f' % (99.9, 99.9))
     time.sleep(0.9)
   except IOError as e:
@@ -151,7 +157,7 @@ def get_i2c_data():
   # Initialize 
   altimet = cfg.get_device("altimet")
   sht_sensor = cfg.get_device("sht25")
-  sht_sensor_2 = cfg.get_device("sht25b")
+#  sht_sensor_2 = cfg.get_device("sht25b")
   gauge = cfg.get_device("gauge")
 
   time.sleep(0.5)
@@ -203,9 +209,10 @@ def get_i2c_data():
 
   csv_header = csv_header + 'T_SHT\tHumidity\t'
   lr=lr+("%.2f\t%.1f\t" % (dv('SHT_Temp'), dv('SHT_Hum')))
-  
+
+ 
   # SHT sensor  
-  logging.debug("Retrieving: SHT sensor data")
+  '''logging.debug("Retrieving: SHT sensor data")
   try:
     sht_sensor_2.route()        
     #!!!temperature = sht_sensor_2.get_temp()
@@ -217,7 +224,7 @@ def get_i2c_data():
     logging.error('SHT 2 data unavailable as %s' % e)
 
   csv_header = csv_header + 'T_SHT2\tHumidity2\t'
-  lr=lr+("%.2f\t%.1f\t" % (dv('SHT_Temp2'), dv('SHT_Hum2')))
+  lr=lr+("%.2f\t%.1f\t" % (dv('SHT_Temp2'), dv('SHT_Hum2')))'''
 
   # Battery data
   logging.debug("Retrieving: Battery sensor data")

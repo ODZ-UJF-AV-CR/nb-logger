@@ -12,7 +12,7 @@ import math
 
 NaN = float('nan')
 g.data['nb_restime'] = NaN
-nb_port = '/dev/ttyUSB0'
+nb_port = '/dev/nb' # descriptive-name.rules includes SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", ATTRS{serial}=="A7006Wh6", SYMLINK+="nb"
 
 #### Store a data line into file ####
 def store(record = []):
