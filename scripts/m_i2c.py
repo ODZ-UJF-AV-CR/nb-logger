@@ -163,6 +163,7 @@ def get_i2c_data():
   logging.debug("Retrieving: Altimet temperature and pressure data")
   try:
     altimet.route()
+    time.sleep(0.1)
     (t1, p1) = altimet.get_tp()
     g.data['Altimet_Temp'] = t1
     g.data['Altimet_Press'] = p1
@@ -207,8 +208,8 @@ def get_i2c_data():
   logging.debug("Retrieving: SHT sensor data")
   try:
     sht_sensor_2.route()        
-    temperature = sht_sensor_2.get_temp()
-    humidity = sht_sensor_2.get_hum()
+    #!!!temperature = sht_sensor_2.get_temp()
+    #!!!humidity = sht_sensor_2.get_hum()
     logging.info("SHTTemp2: %.2f C Humid2: %.1f " % (temperature, humidity))
     g.data['SHT_Temp2'] = temperature
     g.data['SHT_Hum2'] = humidity

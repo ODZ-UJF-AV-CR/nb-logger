@@ -152,6 +152,21 @@ try:
 
               nb.store([round_start, dv('GPS_Alt'), dv('Altimet_Press'), dv('SHT_Hum'), dv('SHT_Temp'), dv('SHT_Hum2'), dv('SHT_Temp2')] + nb_records)
 
+	    # IP address
+	    try:
+		    ipv4_1 = os.popen('ip addr show eth1').read().split("inet ")[1].split("/")[0]
+		    ipv4_2 = os.popen('ip addr show eth1:0').read().split("inet ")[1].split("/")[0]
+	    	    if ipv4_1 == None:
+	        	ipv4=ipv4_2
+            	    elif ipv4_2 == None:
+                	ipv4=ipv4_1
+	    	    else:
+			ipv4=ipv4_1
+
+	    	    lcdargs.append(ipv4)
+	    except IndexError:
+		lcdargs.append('No IP') 
+
             # If LCD available, update it
             if i2c_enabled:
               m_i2c.lcdargs(lcdargs)
