@@ -19,7 +19,7 @@ serial_port = serial.Serial(port, baud, timeout=5)
 
 def handle_data(data):
   print(data)
-  datafname = "data_koule.csv"
+  datafname = "/data/balon/data_koule.csv"
   with open(datafname, "a") as nbf:
     nbf.write(data)
   nbf.close()

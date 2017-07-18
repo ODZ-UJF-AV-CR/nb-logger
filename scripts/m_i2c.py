@@ -121,7 +121,7 @@ def lcd():
     lcd.set_row2()
     time.sleep(0.1)
 
-    if os.path.isfile('data_koule.csv')==True:
+    if os.path.isfile('/data/balon/data_koule.csv')==True:
       koule=os.popen('tail -n1 data_koule.csv | tail -c 5').read()
       koule=float(koule)
       lcd.puts('H1 %4.1f B %4.3f' % (dv('SHT_Hum'), koule))
