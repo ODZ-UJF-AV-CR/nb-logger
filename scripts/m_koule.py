@@ -35,7 +35,7 @@ def read_from_port(ser):
           time.sleep(0.1)
           reading = ser.read(ser.inWaiting()).rstrip()
           if reading != '':
-             handle_data(str(time.time()) + ' ' + reading )#+ '\n')
+             handle_data(str(time.time()) + ' ' + reading )
           
 try:
     thread = threading.Thread(target=read_from_port, args=(serial_port,))
