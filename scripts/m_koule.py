@@ -31,10 +31,11 @@ def read_from_port(ser):
     connected = True
 
     while (True):
-      if (ser.inWaiting()>0):
+      if (ser.read()>0):
           time.sleep(0.1)
           reading = ser.read(ser.inWaiting()).rstrip()
-          handle_data(str(time.time()) + ' ' + reading + '\n')
+          if reading != '':
+             handle_data(str(time.time()) + ' ' + reading )#+ '\n')
           
 try:
     thread = threading.Thread(target=read_from_port, args=(serial_port,))
